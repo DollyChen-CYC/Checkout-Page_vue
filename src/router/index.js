@@ -8,6 +8,11 @@ Vue.use(VueRouter)
 const routes = [
   {
     path: '/',
+    name: 'root',
+    redirect: '/checkout'
+  },
+  {
+    path: '/checkout',
     name: 'checkout-page',
     component: CheckoutPage,
   },
