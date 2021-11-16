@@ -1,61 +1,64 @@
 <template>
   <header>
-    <div class="header-menu d-flex flex-column">
+    <div class="header__container">
       <input
         type="checkbox"
-        name="navbar-toggle"
-        id="navbar-toggle"
-        class="d-none"
+        name="navbar__toggle"
+        id="navbar__toggle"
+        class="navbar__toggle"
       />
-      <label for="navbar-toggle" class="navbar-toggle-label"
+      <label for="navbar__toggle" class="navbar__toggle-label"
         ><i class="fas fa-bars"></i
       ></label>
       <nav>
-        <ul class="nav-list">
-          <li v-for="navItem in navList" :key="navItem.title" class="nav-item">
-            <router-link class="nav-link" :to="navItem.link">{{
-              navItem.title
-            }}</router-link>
+        <ul class="navbar__nav-list">
+          <li
+            v-for="navItem in navList"
+            :key="navItem.title"
+            class="navbar__nav-list__nav-item"
+          >
+            <router-link
+              class="navbar__nav-list__nav-item__nav-link"
+              :to="navItem.link"
+            >
+              {{ navItem.title }}
+            </router-link>
           </li>
         </ul>
       </nav>
-      <div class="header-actions d-flex justify-content-center">
-        <a
-          href="#"
-          class="header-link header-link-search px-3 d-flex align-items-center"
+      <div class="header-actions">
+        <router-link
+          to=""
+          class="header-actions__header-link"
         >
           <i class="fas fa-search"></i>
-        </a>
-        <a
-          href="#"
+        </router-link>
+        <router-link
+          to=""
           class="
-            header-link header-link-shopping-cart
-            px-3
-            d-flex
-            align-items-center
+            header-actions__header-link
           "
         >
           <i class="fas fa-shopping-cart"></i>
-        </a>
+        </router-link>
         <label
-          for="dark-mode-toggle"
-          class="header-link header-link-dark px-3 d-flex align-items-center"
+          for="header-actions__dark-mode-toggle"
+          class="header-actions__dark-mode-toggle-label header-actions__header-link"
         >
           <i class="fas fa-moon"></i>
-          <i class="fas fa-sun d-none"></i>
+          <i class="fas fa-sun"></i>
         </label>
         <input
           type="checkbox"
-          name="dark-mode-toggle"
-          id="dark-mode-toggle"
-          class="d-none"
+          name="header-actions__dark-mode-toggle"
+          class="header-actions__dark-mode-toggle"
         />
         <!-- use JS to control the toggle of d-flex / d-none -->
       </div>
     </div>
-    <router-link to="" class="brand d-flex align-items-center">
-      <img class="d-inline-block mr-1" :src="logoImage" alt="Alpha Camp logo" />
-      <h1 class="shop-name d-inline-block">ALPHA Shop</h1>
+    <router-link to="" class="header__brand">
+      <img class="header__brand__logo-img" :src="logoImage" alt="Alpha Shop logo" />
+      <h1 class="header__brand__shop-name">ALPHA Shop</h1>
     </router-link>
   </header>
 </template>
@@ -97,7 +100,3 @@ export default {
   },
 };
 </script>
-
-<style lang="scss" scoped>
-  
-</style>
