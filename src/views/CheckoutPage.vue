@@ -1,7 +1,7 @@
 <template>
   <div id="Checkout-page">
     <Stepper :checkout-steps="checkoutSteps" :current-step="currentStep" :total-steps="totalSteps" />
-    <CheckoutForm />
+    <CheckoutForm :initial-form-values="formValues" :current-step="currentStep" :total-steps="totalSteps" />
     <CheckoutShoppingCart />
   </div>
 </template>
@@ -24,6 +24,7 @@ export default {
       totalSteps: 3,
       formValues: {
         buyerInfo: {
+          formId: 1,
           title: "寄送地址",
           salutation: "Mr",
           name: "",
@@ -33,14 +34,16 @@ export default {
           address: "",
         },
         shippingChoice: {
+          formId: 2,
           title: "運送方式",
-          shipping: "",
+          shipping: "standard-shipping",
           fee: {
             standard: 0,
             dhl: 500,
           },
         },
         paymentInfo: {
+          formId: 3,
           title: "付款資訊",
           creditCardHolder: "",
           creditCardNo: "",
