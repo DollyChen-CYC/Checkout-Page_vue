@@ -1,6 +1,6 @@
 <template>
   <div id="Checkout-page">
-    <Stepper />
+    <Stepper :checkout-steps="checkoutSteps" :current-step="currentStep" :total-steps="totalSteps" />
     <CheckoutForm />
     <CheckoutShoppingCart />
   </div>
@@ -20,6 +20,8 @@ export default {
   },
   data() {
     return {
+      currentStep: 1,
+      totalSteps: 3,
       formValues: {
         buyerInfo: {
           title: "寄送地址",
@@ -46,64 +48,87 @@ export default {
           cvcCcv: "",
         },
       },
-      checkoutStep: {
-        steps: [
-          {
-            title: '寄送地址',
-            isActive: true,
-            isChecked: false,
-          },
-          {
-            title: '運送方式',
-            isActive: false,
-            isChecked: false,
-          },
-          {
-            title: '付款資訊',
-            isActive: false,
-            isChecked: false,
-          }
-        ],
-        totalSteps: 3,
-        currentStep: 1,
-      },
+      checkoutSteps: [
+        {
+          name: "寄送地址",
+          isActive: true,
+          isChecked: false,
+        },
+        {
+          name: "運送方式",
+          isActive: false,
+          isChecked: false,
+        },
+        {
+          name: "付款資訊",
+          isActive: false,
+          isChecked: false,
+        },
+      ],
       shoppingCart: {
-        product : [
+        product: [
           {
             id: 1,
-            name: '破壞補丁修身牛仔褲',
-            image: 'product-1@3x.png',
+            name: "破壞補丁修身牛仔褲",
+            image: "product-1@3x.png",
             price: 3999,
-            qty: 1
+            qty: 1,
           },
           {
             id: 1,
-            name: '破壞補丁修身牛仔褲',
-            image: 'product-1@3x.png',
+            name: "破壞補丁修身牛仔褲",
+            image: "product-1@3x.png",
             price: 3999,
-            qty: 1
+            qty: 1,
           },
         ],
-        shippingFee : 0,
+        shippingFee: 0,
         totalAmount: -1,
-      }
+      },
     };
+  },
+  methods: {
+    updateFormProgress() {
+      this.checkoutSteps = this.checkoutSteps.map((step, index) => {
+        if (index < this.currentStep - 1) {
+          return {
+            ...step,
+            isChecked: true,
+          };
+        } else if (index === this.currentStep - 1) {
+          return {
+            ...step,
+            isActive: true,
+          };
+        } else {
+          return step;
+        }
+      });
+    },
+  },
+  watch: {
+    currentStep: {
+      handler: function () {
+        this.updateFormProgress();
+      },
+      deep: true,
+    },
   },
 };
 
+// plan: 
 // shoppingCart.product -> 來自 fetchDummyData() {}
-  // shoppingCart.shippingFee --> 來自 form options 
-  // 計算第一次的 totalAomunt
+// shoppingCart.shippingFee --> 來自 form options
+// 計算第一次的 totalAomunt
 // shoppingCart.totalAmount --> 來自 computed
-  // no product 告警！
-  // 更新回 parents view
+// no product 告警！
+// 更新回 parents view
 
 // product.img src --> filter 轉換 path (import img)
 // Mixins : 所有 price --> filter 轉換 ($ + 免費)
 
-// v-if (steps[currentStep - 1].title === formValues.buyerInfo.title)   現行： v-model可讀性較高 (v)
-// v-if (steps[currentStep - 1].title === formValues[currentStep - 1].name)   -> formValues 改成陣列，但 v-model 使用 index 取值可讀性就會變差
-
+// v-if (steps[currentStep - 1].name === formValues.buyerInfo.title)   現行： v-model可讀性較高 (v)
+// v-if (steps[currentStep - 1].name === formValues[currentStep - 1].name)   -> formValues 改成陣列，但 v-model 使用 index 取值可讀性就會變差
 </script>
 
 

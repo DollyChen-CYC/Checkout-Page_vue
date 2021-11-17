@@ -10,3 +10,99 @@
 @import url("https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&family=Noto+Sans+TC&display=swap");
 @import "basic";
 @import "header";
+
+// checkoutPage
+#Checkout-page {
+  max-width: $max-width;
+  margin: 0 auto;
+  padding: 14px;
+
+  .checkout-section-title {
+    font-size: 32px;
+    font-weight: 700;
+  }
+}
+
+.stepper-section {
+  &__steps-wrapper {
+    margin: 24px 0;
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    @include pc-media {
+      max-width: 50%;
+    }
+    &__step {
+      background-color: var(--bg-color);
+      position: relative;
+      z-index: 5;
+      color: $neutrals-gray;
+      display: flex;
+      align-items: center;
+      &__circle {
+        position: relative;
+        margin: 0 22px;
+        width: 2rem;
+        height: 2rem;
+        flex-shrink: 0;
+        border: 1px solid $neutrals-gray;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        @include pc-media {
+          margin: 0 0 0 16px;
+        }
+      }
+      &__name {
+        margin: 0 16px 0 12.5px;
+        display: none;
+        @include pc-media {
+          display: unset;
+        }
+      }
+      &.active {
+        color: var(--body-color);
+        .stepper-section__steps-wrapper__step__circle {
+          border-color: var(--body-color);
+        }
+      }
+      &.checked {
+        color: var(--body-color);
+        .stepper-section__steps-wrapper__step__circle::after {
+          content: "\2713";
+          position: absolute;
+          z-index: 6;
+          top: 0;
+          bottom: 0;
+          right: 0;
+          left: 0;
+          border-radius: 50%;
+          border: 1px solid var(--body-color);
+          background-color: $dark-gray;
+          color: $white;
+          text-align: center;
+          font-size: 18px;
+        }
+      }
+    }
+    &__step-bar {
+      display: block;
+      height: 2px;
+      width: 100%;
+      position: absolute;
+      top: 50%;
+      z-index: 1;
+      background-color: var(--border-light-color);
+    }
+    &__progress-line {
+      display: block;
+      height: 2px;
+      width: 0%;
+      position: absolute;
+      top: 50%;
+      z-index: 2;
+      background-color: var(--body-color);
+    }
+  }
+}
