@@ -341,7 +341,7 @@ form {
         display: flex;
         flex-direction: column;
         justify-content: space-between;
-        align-items: end;
+        align-items: flex-end;
         &__qty-wrapper {
           font-size: 14px;
           font-weight: 500;
