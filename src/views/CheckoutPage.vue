@@ -13,7 +13,9 @@
       :initial-current-step="currentStep"
       :total-steps="totalSteps"
     />
-    <CheckoutShoppingCart :initial-shopping-cart="shoppingCart" />
+    <CheckoutShoppingCart 
+    @shopping-amount-change="updateShoppingAmount"
+    :initial-shopping-cart="shoppingCart" />
   </div>
 </template>
 
@@ -126,6 +128,9 @@ export default {
     },
     updateShippingFee(inputValue) {
       this.shoppingCart.shippingFee = this.formValues.shippingChoice.fee[inputValue];
+    },
+    updateShoppingAmount (amount) {
+      this.shoppingCart.totalAmount = amount
     },
     handleAfterFormSubmit(formData) {
       console.log("-- 透過 API 傳送資料到後端伺服器 --");
