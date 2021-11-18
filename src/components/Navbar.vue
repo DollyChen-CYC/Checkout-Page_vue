@@ -27,45 +27,34 @@
         </ul>
       </nav>
       <div class="header-actions">
-        <router-link
-          to=""
-          class="header-actions__header-link"
-        >
+        <router-link to="" class="header-actions__header-link">
           <i class="fas fa-search"></i>
         </router-link>
-        <router-link
-          to=""
-          class="
-            header-actions__header-link
-          "
-        >
+        <router-link to="" class="header-actions__header-link">
           <i class="fas fa-shopping-cart"></i>
         </router-link>
-        <label
+        <div
+          @click="toggleDarkMode"
           for="header-actions__dark-mode-toggle"
-          class="header-actions__dark-mode-toggle-label header-actions__header-link"
+          class="header-actions__dark-mode-toggle header-actions__header-link"
         >
-          <i class="fas fa-moon"></i>
-          <i class="fas fa-sun"></i>
-        </label>
-        <input
-          type="checkbox"
-          name="header-actions__dark-mode-toggle"
-          class="header-actions__dark-mode-toggle"
-        />
-        <!-- use JS to control the toggle of d-flex / d-none -->
+          <span v-show="darkMode"><i class="fas fa-sun"></i></span>
+          <span v-show="!darkMode"><i class="fas fa-moon"></i></span>
+        </div>
       </div>
     </div>
     <router-link to="" class="header__brand">
-      <img class="header__brand__logo-img" :src="logoImage" alt="Alpha Shop logo" />
+      <img
+        class="header__brand__logo-img"
+        :src="require('./../assets/images/Icon@2x.png')"
+        alt="Alpha Shop logo"
+      />
       <h1 class="header__brand__shop-name">ALPHA Shop</h1>
     </router-link>
   </header>
 </template>
 
 <script>
-import logoImage from "./../assets/images/Icon@2x.png";
-
 const dummyData = {
   navList: [
     {
@@ -94,9 +83,25 @@ const dummyData = {
 export default {
   data() {
     return {
-      logoImage,
       navList: dummyData.navList,
+      darkMode: false,
     };
+  },
+  methods: {
+    toggleDarkMode() {
+      console.log("click");
+      this.darkMode = !this.darkMode;
+    },
+  },
+  watch: {
+    darkMode: function () {
+      console.log("watch - mode change");
+      if (this.darkMode) {
+        document.documentElement.setAttribute("dark-theme", "dark");
+      } else {
+        document.documentElement.setAttribute("dark-theme", "light");
+      }
+    },
   },
 };
 </script>

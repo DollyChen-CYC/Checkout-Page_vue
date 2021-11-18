@@ -1,5 +1,4 @@
 /* -- Header -- */
-
 header {
   height: 56px;
   width: 100%;
@@ -136,6 +135,7 @@ header {
       padding: 0 1.5rem;
       display: flex;
       align-items: center;
+      cursor: pointer;
       @include pad-media {
         height: 56px;
       }
@@ -145,9 +145,6 @@ header {
       &:active {
         background-color: $shadow-gray;
       }
-    }
-    &__dark-mode-toggle {
-      display: none;
     }
   }
 

@@ -122,7 +122,11 @@ export default {
             isChecked: false,
           };
         } else {
-          return step;
+          return {
+            ...step,
+            isActive: false,
+            isChecked: false,
+          }
         }
       });
     },
