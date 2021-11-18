@@ -66,9 +66,9 @@ header {
         text-align: center;
         position: relative;
         @include pc-media {
-          margin-left: 0.5rem;
+          margin-left: 8px;
           width: auto;
-          padding: 1rem 1rem 1rem 0;
+          padding: 16px 8px;
         }
         &__nav-link {
           display: inline-block;
