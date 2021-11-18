@@ -9,7 +9,12 @@
   git clone https://github.com/DollyChen-CYC/Checkout-Page_vue.git
   ```
 
-### Install dependencies
+###  Install dependencies
+- Change directory
+  ```bash
+  cd Checkout-Page_vue
+  ```
+- Install project dependencies
   ```bash
   npm install
   ```
@@ -19,16 +24,3 @@
   npm run serve
   ```
 - Open the browser and navigate to http://localhost:8080   👀 
-
-### Compiles and minifies for production
-  ```
-  npm run build
-  ```
-
-### Lints and fixes files
-  ```
-  npm run lint
-  ```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
