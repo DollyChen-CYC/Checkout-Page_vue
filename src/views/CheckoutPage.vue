@@ -1,7 +1,18 @@
 <template>
   <div id="Checkout-page">
-    <Stepper :checkout-steps="checkoutSteps" :current-step="currentStep" :total-steps="totalSteps" />
-    <CheckoutForm :initial-form-values="formValues" :current-step="currentStep" :total-steps="totalSteps" />
+    <Stepper
+      :checkout-steps="checkoutSteps"
+      :current-step="currentStep"
+      :total-steps="totalSteps"
+    />
+    <CheckoutForm
+      @change-current-step="updateCurrentStep"
+      @after-shipping-change="updateShippingFee"
+      @after-form-submit="handleAfterFormSubmit"
+      :initial-form-values="formValues"
+      :initial-current-step="currentStep"
+      :total-steps="totalSteps"
+    />
     <CheckoutShoppingCart />
   </div>
 </template>
@@ -36,7 +47,7 @@ export default {
         shippingChoice: {
           formId: 2,
           title: "運送方式",
-          shipping: "standard-shipping",
+          shipping: "standard",
           fee: {
             standard: 0,
             dhl: 500,
@@ -87,7 +98,7 @@ export default {
         ],
         shippingFee: 0,
         totalAmount: -1,
-      },
+      }
     };
   },
   methods: {
@@ -108,6 +119,18 @@ export default {
         }
       });
     },
+    updateCurrentStep(newStep) {
+      this.currentStep = newStep;
+    },
+    updateShippingFee(inputValue) {
+      this.formValues.shippingChoice.shipping = inputValue;
+    },
+    handleAfterFormSubmit(formData) {
+      console.log("-- 透過 API 傳送資料到後端伺服器 --");
+      for (let [name, value] of formData.entries()) {
+        console.log(name + ": " + value);
+      }
+    },
   },
   watch: {
     currentStep: {
@@ -119,7 +142,7 @@ export default {
   },
 };
 
-// plan: 
+// plan:
 // shoppingCart.product -> 來自 fetchDummyData() {}
 // shoppingCart.shippingFee --> 來自 form options
 // 計算第一次的 totalAomunt

@@ -1,5 +1,5 @@
 <template>
-  <form action="">
+  <form @submit.stop.prevent="handleFormSubtmit" action="">
     <!-- form-part 1 -->
     <div v-show="formShowNow === 'buyerInfo'" class="form-part">
       <h2 class="form-part__title checkout-section-title">寄送地址</h2>
@@ -89,17 +89,20 @@
       <h2 class="form-part__title checkout-section-title">運送方式</h2>
       <div class="form-part__form-row">
         <input
+          @change="handleShippingChange"
           v-model="formValues.shippingChoice.shipping"
           type="radio"
           name="shipping"
           id="standard-shipping"
-          value="standard-shipping"
+          value="standard"
           checked
           required
         />
         <label for="standard-shipping" class="form-part__form-shipping-option">
           <div class="form-part__form-shipping-option__radio-circle"></div>
-          <div class="form-part__form-shipping-option__shipping-desc flex-grow-1">
+          <div
+            class="form-part__form-shipping-option__shipping-desc flex-grow-1"
+          >
             <span
               class="
                 form-part__form-shipping-option__shipping-desc__shipping-subtitle
@@ -120,16 +123,19 @@
       </div>
       <div class="form-part__form-row">
         <input
+          @change="handleShippingChange"
           v-model="formValues.shippingChoice.shipping"
           type="radio"
           name="shipping"
           id="DHL-shipping"
-          value="DHL-shipping"
+          value="DHL"
           required
         />
         <label for="DHL-shipping" class="form-part__form-shipping-option">
           <div class="form-part__form-shipping-option__radio-circle"></div>
-          <div class="form-part__form-shipping-option__shipping-desc flex-grow-1">
+          <div
+            class="form-part__form-shipping-option__shipping-desc flex-grow-1"
+          >
             <span
               class="
                 form-part__form-shipping-option__shipping-desc__shipping-subtitle
@@ -204,14 +210,27 @@
     <!-- buttons -->
     <div class="form-btn-groups">
       <div class="form-btn-groups__btn-wrapper">
-        <button class="form-btn-groups__btn btn-back">
+        <button
+          @click.stop.prevent="handleBtnClick"
+          v-show="currentStep > 1"
+          class="form-btn-groups__btn btn-back"
+        >
           <span class="arrow-symbol">&#8592;</span> 上一步
         </button>
       </div>
-      <button class="form-btn-groups__btn btn-next">
+      <button
+        @click.stop.prevent="handleBtnClick"
+        v-show="currentStep < totalSteps"
+        class="form-btn-groups__btn btn-next"
+      >
         下一步 <span class="arrow-symbol">&#8594;</span>
       </button>
-      <button type="submit" class="form-btn-groups__btn btn-submit">
+      <button
+        @click="handleBtnClick"
+        v-show="currentStep === totalSteps"
+        type="submit"
+        class="form-btn-groups__btn btn-submit"
+      >
         確認下單
       </button>
     </div>
@@ -219,9 +238,6 @@
 </template>
 
 <script>
-// form height change
-// btn js
-// data $emit
 import { priceLabelFilter } from "../utils/mixin.js";
 
 export default {
@@ -231,25 +247,65 @@ export default {
       type: Object,
       required: true,
     },
-    currentStep: {
+    initialCurrentStep: {
       type: Number,
       required: true,
     },
     totalSteps: {
       type: Number,
-      required: true
-    }
+      required: true,
+    },
   },
   mixins: [priceLabelFilter],
   data() {
     return {
       formValues: this.initialFormValues,
+      currentStep: this.initialCurrentStep,
     };
   },
+  methods: {
+    handleBtnClick(event) {
+      const targetItem = event.target;
+      if (
+        targetItem.matches(".btn-next") &&
+        this.currentStep < this.totalSteps
+      ) {
+        if (this.formValues.buyerInfo.city.length === 0) {
+          this.$swal.fire(
+            "必填欄位「縣市」未選擇",
+            "請重新確認，謝謝！",
+            "warning"
+          );
+          return;
+        }
+        this.currentStep++;
+      } else if (targetItem.matches(".btn-back") && this.currentStep > 1) {
+        this.currentStep--;
+      }
+    },
+    handleFormSubtmit(event) {
+      const form = event.target;
+      const formData = new FormData(form);
+      this.$swal.fire("訂單已送出!", "感謝您的購買!", "success");
+      this.currentStep = 1;
+      this.$emit("after-form-submit", formData);
+    },
+    handleShippingChange() {
+      this.$emit(
+        "after-shipping-change",
+        this.formValues.shippingChoice.shipping
+      );
+    },
+  },
   computed: {
-    formShowNow () {
-      return Object.keys(this.formValues)[this.currentStep - 1]
-    }
-  }
+    formShowNow() {
+      return Object.keys(this.formValues)[this.currentStep - 1];
+    },
+  },
+  watch: {
+    currentStep() {
+      this.$emit("change-current-step", this.currentStep);
+    },
+  },
 };
 </script>
