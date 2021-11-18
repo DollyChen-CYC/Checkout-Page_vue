@@ -13,9 +13,10 @@
       :initial-current-step="currentStep"
       :total-steps="totalSteps"
     />
-    <CheckoutShoppingCart 
-    @shopping-amount-change="updateShoppingAmount"
-    :initial-shopping-cart="shoppingCart" />
+    <CheckoutShoppingCart
+      @shopping-list-change="updateShoppingCart"
+      :initial-shopping-cart="shoppingCart"
+    />
   </div>
 </template>
 
@@ -89,7 +90,7 @@ export default {
             image: "product-1@3x.png",
             price: 3999,
             qty: 1,
-            subtotal: 3999
+            subtotal: 3999,
           },
           {
             id: 2,
@@ -97,12 +98,12 @@ export default {
             image: "product-2@3x.png",
             price: 1299,
             qty: 1,
-            subtotal: 1299
+            subtotal: 1299,
           },
         ],
         shippingFee: 0,
         totalAmount: 5298,
-      }
+      },
     };
   },
   methods: {
@@ -111,12 +112,14 @@ export default {
         if (index < this.currentStep - 1) {
           return {
             ...step,
+            isActive: true,
             isChecked: true,
           };
         } else if (index === this.currentStep - 1) {
           return {
             ...step,
             isActive: true,
+            isChecked: false,
           };
         } else {
           return step;
@@ -127,24 +130,27 @@ export default {
       this.currentStep = newStep;
     },
     updateShippingFee(inputValue) {
-      this.shoppingCart.shippingFee = this.formValues.shippingChoice.fee[inputValue];
+      this.shoppingCart.shippingFee =
+        this.formValues.shippingChoice.fee[inputValue];
     },
-    updateShoppingAmount (amount) {
-      this.shoppingCart.totalAmount = amount
+    updateShoppingCart(dataFromComponent) {
+      this.shoppingCart = dataFromComponent;
     },
     handleAfterFormSubmit(formData) {
       console.log("-- 透過 API 傳送資料到後端伺服器 --");
       for (let [name, value] of formData.entries()) {
         console.log(name + ": " + value);
       }
+      this.$swal.fire(
+        "訂單已送出!",
+        `今日消費金額為：${this.shoppingCart.totalAmount} 元`,
+        "success"
+      );
     },
   },
   watch: {
-    currentStep: {
-      handler: function () {
-        this.updateFormProgress();
-      },
-      deep: true,
+    currentStep: function () {
+      this.updateFormProgress();
     },
   },
 };

@@ -260,7 +260,7 @@ export default {
   data() {
     return {
       formValues: this.initialFormValues,
-      currentStep: this.initialCurrentStep,
+      currentStep: 1,
     };
   },
   methods: {
@@ -286,8 +286,6 @@ export default {
     handleFormSubtmit(event) {
       const form = event.target;
       const formData = new FormData(form);
-      this.$swal.fire("訂單已送出!", "感謝您的購買!", "success");
-      this.currentStep = 1;
       this.$emit("after-form-submit", formData);
     },
     handleShippingChange() {
@@ -303,7 +301,7 @@ export default {
     },
   },
   watch: {
-    currentStep() {
+    currentStep: function () {
       this.$emit("change-current-step", this.currentStep);
     },
   },
