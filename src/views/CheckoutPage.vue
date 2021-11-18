@@ -13,7 +13,7 @@
       :initial-current-step="currentStep"
       :total-steps="totalSteps"
     />
-    <CheckoutShoppingCart />
+    <CheckoutShoppingCart :initial-shopping-cart="shoppingCart" />
   </div>
 </template>
 
@@ -50,7 +50,7 @@ export default {
           shipping: "standard",
           fee: {
             standard: 0,
-            dhl: 500,
+            DHL: 500,
           },
         },
         paymentInfo: {
@@ -80,24 +80,26 @@ export default {
         },
       ],
       shoppingCart: {
-        product: [
+        products: [
           {
             id: 1,
             name: "破壞補丁修身牛仔褲",
             image: "product-1@3x.png",
             price: 3999,
             qty: 1,
+            subtotal: 3999
           },
           {
-            id: 1,
-            name: "破壞補丁修身牛仔褲",
-            image: "product-1@3x.png",
-            price: 3999,
+            id: 2,
+            name: "刷色直筒牛仔褲",
+            image: "product-2@3x.png",
+            price: 1299,
             qty: 1,
+            subtotal: 1299
           },
         ],
         shippingFee: 0,
-        totalAmount: -1,
+        totalAmount: 5298,
       }
     };
   },
@@ -123,7 +125,7 @@ export default {
       this.currentStep = newStep;
     },
     updateShippingFee(inputValue) {
-      this.formValues.shippingChoice.shipping = inputValue;
+      this.shoppingCart.shippingFee = this.formValues.shippingChoice.fee[inputValue];
     },
     handleAfterFormSubmit(formData) {
       console.log("-- 透過 API 傳送資料到後端伺服器 --");
