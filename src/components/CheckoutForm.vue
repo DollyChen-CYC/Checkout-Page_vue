@@ -243,6 +243,10 @@ import { priceLabelFilter } from "../utils/mixin.js";
 export default {
   name: "CheckoutForm",
   props: {
+    StorageKey: {
+      type: String,
+      required: true
+    },
     initialFormValues: {
       type: Object,
       required: true,
@@ -269,6 +273,10 @@ export default {
   methods: {
     fetchCurrentStep() {
       this.currentStep = Number(this.$route.query.step) || 1;
+    },
+    saveStorage () {
+      console.log('saving')
+      localStorage.setItem(this.StorageKey, JSON.stringify(this.formValues))
     },
     handleBtnClick(event) {
       const targetItem = event.target;
@@ -328,6 +336,12 @@ export default {
     currentStep: function () {
       this.$emit("change-current-step", this.currentStep);
     },
+    formValues: {
+      handler: function () {
+        this.saveStorage()
+      },
+      deep: true
+    }
   },
 };
 </script>

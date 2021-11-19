@@ -9,6 +9,7 @@
       @change-current-step="updateCurrentStep"
       @after-shipping-change="updateShippingFee"
       @after-form-submit="handleAfterFormSubmit"
+      :storage-key="StorageKey"
       :initial-form-values="formValues"
       :initial-current-step="currentStep"
       :total-steps="totalSteps"
@@ -34,6 +35,7 @@ export default {
   },
   data() {
     return {
+      StorageKey: "localFormData",
       currentStep: 1,
       totalSteps: 3,
       formValues: {
@@ -110,8 +112,19 @@ export default {
       },
     };
   },
+  created () {
+    this.fetchLocalFormData()
+  },
   methods: {
-    updateFormProgress() {
+    fetchLocalFormData () {
+      const localFormData = JSON.parse(localStorage.getItem(this.StorageKey))
+      console.log('fetch loacl formData')
+      this.formValues = {
+        ...this.formValues,
+        ...localFormData
+      }
+    },
+    updateCheckoutSteps() {
       this.checkoutSteps = this.checkoutSteps.map((step, index) => {
         if (index < this.currentStep - 1) {
           return {
@@ -163,7 +176,7 @@ export default {
   },
   watch: {
     currentStep: function () {
-      this.updateFormProgress();
+      this.updateCheckoutSteps();
     },
   },
 };
