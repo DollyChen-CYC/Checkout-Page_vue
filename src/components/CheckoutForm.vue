@@ -1,5 +1,5 @@
 <template>
-  <form @submit.stop.prevent="handleFormSubtmit" action="">
+  <form @submit.stop.prevent="handleFormSubtmit" action="" novalidate>
     <!-- form-part 1 -->
     <div v-show="formShowNow === 'buyerInfo'" class="form-part">
       <h2 class="form-part__title checkout-section-title">寄送地址</h2>
@@ -263,13 +263,20 @@ export default {
       currentStep: 1,
     };
   },
+  mounted() {
+    this.fetchCurrentStep();
+  },
   methods: {
+    fetchCurrentStep() {
+      this.currentStep = Number(this.$route.query.step) || 1;
+    },
     handleBtnClick(event) {
       const targetItem = event.target;
       if (
         targetItem.matches(".btn-next") &&
         this.currentStep < this.totalSteps
       ) {
+        // form validation (only the "city" field is required input for this moment)
         if (this.formValues.buyerInfo.city.length === 0) {
           this.$swal.fire(
             "必填欄位「縣市」未選擇",
@@ -279,14 +286,31 @@ export default {
           return;
         }
         this.currentStep++;
+        this.$router.replace({
+          name: "checkout-page",
+          query: { step: this.currentStep },
+        });
       } else if (targetItem.matches(".btn-back") && this.currentStep > 1) {
         this.currentStep--;
+        this.$router.replace({
+          name: "checkout-page",
+          query: { step: this.currentStep },
+        });
       }
     },
     handleFormSubtmit(event) {
-      const form = event.target;
-      const formData = new FormData(form);
-      this.$emit("after-form-submit", formData);
+      // form validation
+      if (this.formValues.buyerInfo.city.length === 0) {
+        this.$swal.fire(
+          "必填欄位「縣市」未選擇",
+          "請重新確認，謝謝！",
+          "warning"
+        );
+      } else {
+        const form = event.target;
+        const formData = new FormData(form);
+        this.$emit("after-form-submit", formData);
+      }
     },
     handleShippingChange() {
       this.$emit(

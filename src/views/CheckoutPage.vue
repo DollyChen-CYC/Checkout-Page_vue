@@ -55,6 +55,10 @@ export default {
             standard: 0,
             DHL: 500,
           },
+          shippingTime: {
+            standard: '約 3-7 個工作天',
+            DHL: '48 小時內'
+          }
         },
         paymentInfo: {
           formId: 3,
@@ -141,13 +145,18 @@ export default {
       this.shoppingCart = dataFromComponent;
     },
     handleAfterFormSubmit(formData) {
-      console.log("-- 透過 API 傳送資料到後端伺服器 --");
+      // TODO: 將資料透過 API 傳送到後端
+      console.log("-- 透過 API 傳送資料到後端 --");
       for (let [name, value] of formData.entries()) {
         console.log(name + ": " + value);
       }
+      // show a pop-up window to notify users
+      const shipping = this.formValues.shippingChoice.shipping
+      const shippingTime = this.formValues.shippingChoice.shippingTime[shipping]
+
       this.$swal.fire(
         "訂單已送出!",
-        `今日消費金額為：${this.shoppingCart.totalAmount} 元`,
+        `今日消費金額為：${this.shoppingCart.totalAmount} 元 <br> 商品會在${shippingTime}送達，請耐心等候`,
         "success"
       );
     },
