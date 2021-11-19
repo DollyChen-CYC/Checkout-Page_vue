@@ -275,7 +275,6 @@ export default {
       this.currentStep = Number(this.$route.query.step) || 1;
     },
     saveStorage () {
-      console.log('saving')
       localStorage.setItem(this.StorageKey, JSON.stringify(this.formValues))
     },
     handleBtnClick(event) {

@@ -118,7 +118,6 @@ export default {
   methods: {
     fetchLocalFormData () {
       const localFormData = JSON.parse(localStorage.getItem(this.StorageKey))
-      console.log('fetch loacl formData')
       this.formValues = {
         ...this.formValues,
         ...localFormData
@@ -180,20 +179,6 @@ export default {
     },
   },
 };
-
-// plan:
-// shoppingCart.product -> 來自 fetchDummyData() {}
-// shoppingCart.shippingFee --> 來自 form options
-// 計算第一次的 totalAomunt
-// shoppingCart.totalAmount --> 來自 computed
-// no product 告警！
-// 更新回 parents view
-
-// product.img src --> filter 轉換 path (import img)
-// Mixins : 所有 price --> filter 轉換 ($ + 免費)
-
-// v-if (steps[currentStep - 1].name === formValues.buyerInfo.title)   現行： v-model可讀性較高 (v)
-// v-if (steps[currentStep - 1].name === formValues[currentStep - 1].name)   -> formValues 改成陣列，但 v-model 使用 index 取值可讀性就會變差
 </script>
 
 
