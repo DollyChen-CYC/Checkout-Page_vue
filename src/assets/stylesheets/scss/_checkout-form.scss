@@ -1,7 +1,7 @@
 /* form-group */
 
 form {
-  margin-bottom: 24px;
+  margin-bottom: 16px;
   @include pc-media {
     max-width: 50%;
   }
@@ -57,7 +57,7 @@ form {
 .form-part {
   min-height: 320px;
   @include pc-media {
-    min-height: 37vh;
+    min-height: 40vh;
   }
   &__form-row {
     margin-top: 24px;
@@ -144,6 +144,9 @@ form {
 }
 
 .form-btn-groups {
+  position: absolute;
+  width: 100%;
+  top: 100%;
   margin: 1rem 0;
   padding: 24px 0;
   font-size: 16px;
@@ -151,7 +154,9 @@ form {
   justify-content: space-between;
   gap: 30px;
   border-top: 1px solid var(--border-light-color);
-
+  @include pc-media {
+    position: unset;
+  };
   &__btn-wrapper {
     flex-grow: 1;
   }
