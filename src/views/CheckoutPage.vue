@@ -125,24 +125,10 @@ export default {
     },
     updateCheckoutSteps() {
       this.checkoutSteps = this.checkoutSteps.map((step, index) => {
-        if (index < this.currentStep - 1) {
-          return {
-            ...step,
-            isActive: true,
-            isChecked: true,
-          };
-        } else if (index === this.currentStep - 1) {
-          return {
-            ...step,
-            isActive: true,
-            isChecked: false,
-          };
-        } else {
-          return {
-            ...step,
-            isActive: false,
-            isChecked: false,
-          }
+        return {
+          ...step,
+          isActive: index === this.currentStep - 1 ? true : false,
+          isChecked: index < this.currentStep - 1 ? true : false,
         }
       });
     },
