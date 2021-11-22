@@ -89,13 +89,11 @@ export default {
   },
   methods: {
     toggleDarkMode() {
-      console.log("click");
       this.darkMode = !this.darkMode;
     },
   },
   watch: {
     darkMode: function () {
-      console.log("watch - mode change");
       if (this.darkMode) {
         document.documentElement.setAttribute("dark-theme", "dark");
       } else {
