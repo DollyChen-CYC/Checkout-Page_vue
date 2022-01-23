@@ -7,7 +7,8 @@
 - Provide RWD UI for users using mobile screens.
 - Provide dark mode browsing theme.
 
-.
+<img height="400" src="https://github.com/DollyChen-CYC/portfolio/blob/main/src/assets/images/3-checkout-page.png" alt="Project Screenshot" />
+
 ## 🏃‍ Project setup and run
 
 ### Step 1 . Please clone the project
